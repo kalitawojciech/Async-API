@@ -20,13 +20,13 @@ namespace Movies.Infrastructure.Contexts
             modelBuilder.Entity<Director>().HasData(
                 new Director()
                 {
-                    Id = Guid.Parse("1"),
+                    Id = Guid.Parse("11111111-1111-1111-1111-111111111111"),
                     FirstName = "James",
                     LastName = "Cameron"
                 },
                 new Director()
                 {
-                    Id = Guid.Parse("2"),
+                    Id = Guid.Parse("11111111-1111-1111-1111-111111111112"),
                     FirstName = "Steven",
                     LastName = "Spielberg"
                 }
@@ -34,15 +34,15 @@ namespace Movies.Infrastructure.Contexts
             modelBuilder.Entity<Movie>().HasData(
                 new Movie()
                 {
-                    Id = Guid.Parse("1"),
-                    DirectorId = Guid.Parse("1"),
+                    Id = Guid.Parse("21111111-1111-1111-1111-111111111111"),
+                    DirectorId = Guid.Parse("11111111-1111-1111-1111-111111111111"),
                     Title = "Avatar",
                     Description = "Avatar's description."
                 },
                 new Movie()
                 {
-                    Id = Guid.Parse("2"),
-                    DirectorId = Guid.Parse("2"),
+                    Id = Guid.Parse("21111111-1111-1111-1111-111111111112"),
+                    DirectorId = Guid.Parse("11111111-1111-1111-1111-111111111112"),
                     Title = "Jurassic Park",
                     Description = "Jurassic Park's description."
                 }
