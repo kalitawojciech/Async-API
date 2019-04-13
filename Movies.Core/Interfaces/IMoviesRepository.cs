@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Movies.Core.Interfaces
 {
-    interface IMoviesRepository
+    public interface IMoviesRepository
     {
         Task<IEnumerable<Movie>> GetMoviesAsync();
         Task<Movie> GetMovieAsync(Guid Id);

@@ -11,7 +11,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Movies.Core.Interfaces;
 using Movies.Infrastructure.Contexts;
+using Movies.Infrastructure.Services;
 
 namespace Movies.Api
 {
@@ -31,6 +33,8 @@ namespace Movies.Api
 
             var connectionString = Configuration["ConnectionString:MoviesDBConnectionString"];
             services.AddDbContext<MoviesContext>(o => o.UseSqlServer(connectionString));
+
+            services.AddScoped<IMoviesRepository, MoviesRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
