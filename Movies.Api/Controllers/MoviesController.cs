@@ -25,5 +25,17 @@ namespace Movies.Api.Controllers
             var moviesEntities = await _moviesRepository.GetMoviesAsync();
             return Ok(moviesEntities);
         }
+
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<IActionResult> GetMovie(Guid movieId)
+        {
+            var movieEntity = await _moviesRepository.GetMovieAsync(movieId);
+            if(movieEntity == null)
+            {
+                return NotFound();
+            }
+            return Ok(movieEntity);
+        }
     }
 }
