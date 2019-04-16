@@ -24,4 +24,5 @@ namespace Movies.Api.Filters
             resultFromAction.Value = Mapper.Map<IEnumerable<Core.Models.Movie>>(resultFromAction.Value);
             await next();
         }
+    }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Movies.Api.Filters;
 using Movies.Core.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,7 @@ namespace Movies.Api.Controllers
         }
 
         [HttpGet]
+        [MoviesResultFilter]
         public async Task<IActionResult> GetMovies()
         {
             var moviesEntities = await _moviesRepository.GetMoviesAsync();
@@ -27,6 +29,7 @@ namespace Movies.Api.Controllers
         }
 
         [HttpGet]
+        [MovieResultFilter]
         [Route("{id}")]
         public async Task<IActionResult> GetMovie(Guid movieId)
         {
