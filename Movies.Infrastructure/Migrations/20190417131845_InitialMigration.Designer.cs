@@ -10,7 +10,7 @@ using Movies.Infrastructure.Contexts;
 namespace Movies.Infrastructure.Migrations
 {
     [DbContext(typeof(MoviesContext))]
-    [Migration("20190412132910_InitialMigration")]
+    [Migration("20190417131845_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
