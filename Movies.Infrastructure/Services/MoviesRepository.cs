@@ -46,5 +46,19 @@ namespace Movies.Infrastructure.Services
             }
         }
 
+        public void AddMovie(Movie movieToAdd)
+        {
+            if(movieToAdd == null)
+            {
+                throw new ArgumentNullException(nameof(movieToAdd));
+            }
+
+            _context.Add(movieToAdd);
+        }
+
+        public async Task<bool> SaveChangesAsync()
+        {
+            return (await _context.SaveChangesAsync() > 0);
+        }
     }
 }

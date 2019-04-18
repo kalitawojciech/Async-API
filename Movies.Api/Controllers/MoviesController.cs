@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Movies.Api.Filters;
 using Movies.Core.Interfaces;
+using Movies.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,11 +15,15 @@ namespace Movies.Api.Controllers
     public class MoviesController : ControllerBase
     {
         private IMoviesRepository _moviesRepository;
+        private readonly IMapper _mapper;
 
-        public MoviesController(IMoviesRepository moviesRepository)
+        public MoviesController(IMoviesRepository moviesRepository, IMapper mapper)
         {
             _moviesRepository = moviesRepository ??
                 throw new ArgumentNullException(nameof(moviesRepository));
+
+            _mapper = mapper ??
+                throw new ArgumentNullException(nameof(mapper));
         }
 
         [HttpGet]
@@ -39,6 +45,16 @@ namespace Movies.Api.Controllers
                 return NotFound();
             }
             return Ok(movieEntity);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateMovie([FromBody] MovieForCreation movie)
+        {
+            var movieEntity = _mapper.Map<Core.Entities.Movie>(movie);
+            _moviesRepository.AddMovie(movieEntity);
+
+            await _moviesRepository.SaveChangesAsync();
+            return Ok();
         }
     }
 }

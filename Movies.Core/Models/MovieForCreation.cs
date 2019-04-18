@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Movies.Core.Models
 {
-    class MovieForCreation
+    public class MovieForCreation
     {
         public Guid DirectorId { get; set; }
         public string Title { get; set; }
