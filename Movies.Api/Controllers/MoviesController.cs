@@ -36,7 +36,7 @@ namespace Movies.Api.Controllers
 
         [HttpGet]
         [MovieResultFilter]
-        [Route("{id}")]
+        [Route("{id}", Name = "GetMovie")]
         public async Task<IActionResult> GetMovie(Guid movieId)
         {
             var movieEntity = await _moviesRepository.GetMovieAsync(movieId);
@@ -48,13 +48,17 @@ namespace Movies.Api.Controllers
         }
 
         [HttpPost]
+        [MovieResultFilter]
         public async Task<IActionResult> CreateMovie([FromBody] MovieForCreation movie)
         {
             var movieEntity = _mapper.Map<Core.Entities.Movie>(movie);
             _moviesRepository.AddMovie(movieEntity);
 
             await _moviesRepository.SaveChangesAsync();
-            return Ok();
+
+            await _moviesRepository.GetMovieAsync(movieEntity.Id);
+
+            return CreatedAtRoute("GetMovie", new { movieId = movieEntity.Id }, movieEntity);
         }
     }
 }

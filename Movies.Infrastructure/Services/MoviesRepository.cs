@@ -23,7 +23,7 @@ namespace Movies.Infrastructure.Services
             return await _context.Movies.Include(m => m.Director).FirstOrDefaultAsync(m => m.Id == Id);
         }
 
-        public async Task<IEnumerable<Movie>> GetMoviesAsync()
+        public async Task<IEnumerable<Core.Entities.Movie>> GetMoviesAsync()
         {
             return await _context.Movies.Include(m => m.Director).ToListAsync();
         }
