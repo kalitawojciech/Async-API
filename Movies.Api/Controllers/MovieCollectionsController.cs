@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Movies.Api.Filters;
 using Movies.Core.Interfaces;
 using Movies.Core.Models;
 using System;
@@ -11,6 +12,7 @@ namespace Movies.Api.Controllers
 {
     [Route("api/moviecollections")]
     [ApiController]
+    [MoviesResultFilter]
     public class MovieCollectionsController : ControllerBase
     {
         private readonly IMoviesRepository _moviesRepository;
@@ -21,11 +23,17 @@ namespace Movies.Api.Controllers
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-        [HttpGet("({movieIds})")]
+        [HttpGet("({movieIds})", Name = "GetMovieCollection")]
         public async Task<IActionResult> GetMovieCollection(
             [ModelBinder(BinderType = typeof(ArrayModelBinder))] IEnumerable<Guid> movieIds)
         {
-            return Ok();
+            var movieEntities = await _moviesRepository.GetMoviesAsync(movieIds);
+            if(movieEntities.Count() != movieIds.Count())
+            {
+                return NotFound();
+            }
+
+            return Ok(movieEntities);
         }
 
 
@@ -39,7 +47,14 @@ namespace Movies.Api.Controllers
             }
 
             await _moviesRepository.SaveChangesAsync();
-            return Ok();
+
+            var moviesToReturn = await _moviesRepository.GetMoviesAsync(
+                                    movieEntities.Select(m => m.Id).ToList());
+
+            var movieIds = string.Join(",", moviesToReturn.Select(a => a.Id));
+            return CreatedAtRoute("GetMovieCollection",
+                new { movieIds },
+                moviesToReturn);
         }
     }
 }
