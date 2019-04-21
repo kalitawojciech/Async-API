@@ -22,7 +22,8 @@ namespace Movies.Api.Controllers
         }
 
         [HttpGet("({movieIds})")]
-        public async Task<IActionResult> GetMovieCollection(IEnumerable<Guid> movieIds)
+        public async Task<IActionResult> GetMovieCollection(
+            [ModelBinder(BinderType = typeof(ArrayModelBinder))] IEnumerable<Guid> movieIds)
         {
             return Ok();
         }

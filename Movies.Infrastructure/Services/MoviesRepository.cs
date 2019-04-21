@@ -4,6 +4,7 @@ using Movies.Core.Interfaces;
 using Movies.Infrastructure.Contexts;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -59,6 +60,12 @@ namespace Movies.Infrastructure.Services
         public async Task<bool> SaveChangesAsync()
         {
             return (await _context.SaveChangesAsync() > 0);
+        }
+
+        public async Task<IEnumerable<Core.Entities.Movie>> GetMoviesAsync(IEnumerable<Guid> moviesIds)
+        {
+            return await _context.Movies.Where(m => moviesIds.Contains(m.Id))
+                .Include(m => m.Director).ToListAsync();
         }
     }
 }

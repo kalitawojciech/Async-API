@@ -10,6 +10,7 @@ namespace Movies.Core.Interfaces
     {
         Task<IEnumerable<Movie>> GetMoviesAsync();
         Task<Movie> GetMovieAsync(Guid Id);
+        Task<IEnumerable<Core.Entities.Movie>> GetMoviesAsync(IEnumerable<Guid> moviesIds);
         void AddMovie(Entities.Movie movieToAdd);
 
         Task<bool> SaveChangesAsync();
