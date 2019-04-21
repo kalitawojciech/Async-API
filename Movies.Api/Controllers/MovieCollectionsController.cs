@@ -21,10 +21,23 @@ namespace Movies.Api.Controllers
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
+        [HttpGet("({movieIds})")]
+        public async Task<IActionResult> GetMovieCollection(IEnumerable<Guid> movieIds)
+        {
+            return Ok();
+        }
+
+
         [HttpPost]
         public async Task<IActionResult> CreateMovieCollection([FromBody] IEnumerable<MovieForCreation> movieCollection)
         {
             var movieEntities = _mapper.Map<IEnumerable<Core.Entities.Movie>>(movieCollection);
+            foreach(var movieEntity in movieEntities)
+            {
+                _moviesRepository.AddMovie(movieEntity);
+            }
+
+            await _moviesRepository.SaveChangesAsync();
             return Ok();
         }
     }
